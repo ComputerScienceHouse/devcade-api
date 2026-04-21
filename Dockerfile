@@ -1,4 +1,6 @@
-FROM rust:1.70-slim-buster
+FROM rust:1.94.0-slim-trixie
+
+RUN rustc --version
 
 WORKDIR /app
 

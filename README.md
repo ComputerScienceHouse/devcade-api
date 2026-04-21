@@ -15,23 +15,7 @@ Source code can be found at: https://github.com/ComputerScienceHouse/devcade-api
 
 - Download project and run ```npm install```
 - Use ```npm run dev``` to start the development server.
-- If a ```.env``` file does not currently exist in the repo root directory, create one with the fields listed below, and then get the values from an RTP or a Devcade Admin
-
-```
-# Express API Environment Variables
-API_PORT=<api port>
-PSQL_PORT=
-PSQL_USER=
-PSQL_PASS=
-PSQL_URI=
-
-# Python Helper Environment Variables
-S3_ACCESSKEYID=
-S3_SECRETACCESSKEY=
-S3_ENDPOINT=
-S3_GAMES_BUCKET="devcade-games"
-S3_SAVES_BUCKET="devcade-saves"
-````
+- There is a file called [.env.template](/.env.template) in the `./onboard` folder. Copy the file to a new file called `.env` in the same directory. Then get the values from an RTP or a Devcade Admin
 
 ## Podman
 

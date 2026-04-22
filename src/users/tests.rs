@@ -4,7 +4,7 @@ use crate::tests::{get_test_server, MCDADE_USER, MTFT_USER};
 #[actix_web::test]
 async fn test_get_user() {
     let srv = get_test_server().await;
-    let req = srv.get("/users/skyz");
+    let req = srv.get("/api/users/skyz");
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -18,7 +18,7 @@ async fn test_get_user() {
 async fn test_add_user() {
     let srv = get_test_server().await;
     let req = srv
-        .post("/users/")
+        .post("/api/users/")
         .insert_header(("frontend_api_key", "TESTING"));
     let mut res = req.send_json(&MCDADE_USER.clone()).await.unwrap();
     println!(
@@ -32,7 +32,7 @@ async fn test_add_user() {
 #[actix_web::test]
 async fn test_add_user_unauthorized() {
     let srv = get_test_server().await;
-    let req = srv.post("/users/");
+    let req = srv.post("/api/users/");
     let mut res = req.send_json(&MCDADE_USER.clone()).await.unwrap();
     println!(
         "{} | {}",
@@ -46,7 +46,7 @@ async fn test_add_user_unauthorized() {
 async fn test_edit_user() {
     let srv = get_test_server().await;
     let req = srv
-        .put(format!("/users/{}", MTFT_USER.id))
+        .put(format!("/api/users/{}", MTFT_USER.id))
         .insert_header(("frontend_api_key", "TESTING"));
     let mut edited_user = MTFT_USER.clone();
     edited_user.picture = "CHANGE PICTURE".to_string();
@@ -62,7 +62,7 @@ async fn test_edit_user() {
 #[actix_web::test]
 async fn test_edit_user_unauthorized() {
     let srv = get_test_server().await;
-    let req = srv.put(format!("/users/{}", MTFT_USER.id));
+    let req = srv.put(format!("/api/users/{}", MTFT_USER.id));
     let mut edited_user = MTFT_USER.clone();
     edited_user.picture = "CHANGE PICTURE".to_string();
     let mut res = req.send_json(&edited_user).await.unwrap();

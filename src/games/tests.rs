@@ -101,7 +101,7 @@ impl FileUploadTest {
 #[actix_web::test]
 async fn test_get_all_games() {
     let srv = get_test_server().await;
-    let req = srv.get("/games/");
+    let req = srv.get("/api/games/");
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -114,7 +114,7 @@ async fn test_get_all_games() {
 #[actix_web::test]
 async fn test_get_game_no_tags() {
     let srv = get_test_server().await;
-    let req = srv.get(format!("/games/{}", TEST_GAME_B.id));
+    let req = srv.get(format!("/api/games/{}", TEST_GAME_B.id));
     let mut res = req.send().await.unwrap();
     assert!(res.status().is_success());
     let game_data: GameWithTags = res.json::<GameWithTags>().await.unwrap();
@@ -124,7 +124,7 @@ async fn test_get_game_no_tags() {
 #[actix_web::test]
 async fn test_get_game_with_tags() {
     let srv = get_test_server().await;
-    let req = srv.get(format!("/games/{}", TEST_GAME_A.id));
+    let req = srv.get(format!("/api/games/{}", TEST_GAME_A.id));
     let mut res = req.send().await.unwrap();
     assert!(res.status().is_success());
     let game_data: GameWithTags = res.json::<GameWithTags>().await.unwrap();
@@ -138,7 +138,7 @@ async fn test_edit_game_data() {
     edited_game.name = "I changed the name!".to_string();
     edited_game.description = "I changed the description!".to_string();
     let req = srv
-        .put(format!("/games/{}", edited_game.id))
+        .put(format!("/api/games/{}", edited_game.id))
         .insert_header(("frontend_api_key", "TESTING"));
     let mut res = req.send_json(&edited_game).await.unwrap();
     println!(
@@ -155,7 +155,7 @@ async fn test_edit_game_data_unauthorized() {
     let mut edited_game = TEST_GAME_C.clone();
     edited_game.name = "I changed the name!".to_string();
     edited_game.description = "I changed the description!".to_string();
-    let req = srv.put(format!("/games/{}", edited_game.id));
+    let req = srv.put(format!("/api/games/{}", edited_game.id));
     let mut res = req.send_json(&edited_game).await.unwrap();
     println!(
         "{} | {}",
@@ -169,7 +169,7 @@ async fn test_edit_game_data_unauthorized() {
 async fn test_delete_game() {
     let srv = get_test_server().await;
     let req = srv
-        .delete(format!("/games/{}", TEST_GAME_D.id))
+        .delete(format!("/api/games/{}", TEST_GAME_D.id))
         .insert_header(("frontend_api_key", "TESTING"));
     let res = req.send().await.unwrap();
     assert!(res.status().is_success());
@@ -178,7 +178,7 @@ async fn test_delete_game() {
 #[actix_web::test]
 async fn test_delete_game_unauthorized() {
     let srv = get_test_server().await;
-    let req = srv.delete(format!("/games/{}", TEST_GAME_D.id));
+    let req = srv.delete(format!("/api/games/{}", TEST_GAME_D.id));
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -211,7 +211,7 @@ async fn test_add_game() {
     .await;
     let payload = gameupload.to_payload("------------------43123453263245325234");
     let req = test::TestRequest::post()
-        .uri("/games/")
+        .uri("/api/games/")
         .append_header(("frontend_api_key", "TESTING"))
         .append_header((
             "Content-Type",
@@ -250,7 +250,7 @@ async fn test_add_game_unauthorized() {
     .await;
     let payload = gameupload.to_payload("------------------43123453263245325234");
     let req = test::TestRequest::post()
-        .uri("/games/")
+        .uri("/api/games/")
         .append_header((
             "Content-Type",
             "mutlipart/form-data; boundary=----------------43123453263245325234",
@@ -268,7 +268,7 @@ async fn test_add_game_unauthorized() {
 #[actix_web::test]
 async fn test_get_game_binary() {
     let srv = get_test_server().await;
-    let req = srv.get(format!("/games/{}/game", TEST_GAME_E.id));
+    let req = srv.get(format!("/api/games/{}/game", TEST_GAME_E.id));
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -292,7 +292,7 @@ async fn test_edit_game_binary() {
     let payload =
         fileupload.to_payload("------------------43123453263245325234", "application/zip");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/game")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/game")
         .append_header(("frontend_api_key", "TESTING"))
         .append_header((
             "Content-Type",
@@ -322,7 +322,7 @@ async fn test_edit_game_binary_unauthorized() {
     let payload =
         fileupload.to_payload("------------------43123453263245325234", "application/zip");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/game")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/game")
         .append_header((
             "Content-Type",
             "mutlipart/form-data; boundary=----------------43123453263245325234",
@@ -340,7 +340,7 @@ async fn test_edit_game_binary_unauthorized() {
 #[actix_web::test]
 async fn test_get_game_banner() {
     let srv = get_test_server().await;
-    let req = srv.get(format!("/games/{}/banner", TEST_GAME_E.id));
+    let req = srv.get(format!("/api/games/{}/banner", TEST_GAME_E.id));
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -364,7 +364,7 @@ async fn test_edit_game_banner() {
     .await;
     let payload = fileupload.to_payload("------------------43123453263245325234", "image/png");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/banner")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/banner")
         .append_header(("frontend_api_key", "TESTING"))
         .append_header((
             "Content-Type",
@@ -394,7 +394,7 @@ async fn test_edit_game_banner_unauthorized() {
     .await;
     let payload = fileupload.to_payload("------------------43123453263245325234", "image/png");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/banner")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/banner")
         .append_header((
             "Content-Type",
             "mutlipart/form-data; boundary=----------------43123453263245325234",
@@ -412,7 +412,7 @@ async fn test_edit_game_banner_unauthorized() {
 #[actix_web::test]
 async fn test_get_game_icon() {
     let srv = get_test_server().await;
-    let req = srv.get(format!("/games/{}/icon", TEST_GAME_E.id));
+    let req = srv.get(format!("/api/games/{}/icon", TEST_GAME_E.id));
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -435,7 +435,7 @@ async fn test_edit_game_icon() {
     .await;
     let payload = fileupload.to_payload("------------------43123453263245325234", "image/png");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/icon")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/icon")
         .append_header(("frontend_api_key", "TESTING"))
         .append_header((
             "Content-Type",
@@ -464,7 +464,7 @@ async fn test_edit_game_icon_unauthorized() {
     .await;
     let payload = fileupload.to_payload("------------------43123453263245325234", "image/png");
     let req = test::TestRequest::put()
-        .uri("/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/icon")
+        .uri("/api/games/GGGGGGGG-GGGG-GGGG-GGGG-GGGGGGGGGGGG/icon")
         .append_header((
             "Content-Type",
             "mutlipart/form-data; boundary=----------------43123453263245325234",

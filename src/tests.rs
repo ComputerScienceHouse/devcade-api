@@ -192,7 +192,7 @@ pub async fn get_test_server() -> TestServer {
 #[actix_web::test]
 async fn test_docs_reachable() {
     let srv = get_test_server().await;
-    let req = srv.get("/docs/");
+    let req = srv.get("/api/docs/");
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",
@@ -205,7 +205,7 @@ async fn test_docs_reachable() {
 #[actix_web::test]
 async fn test_openapi_reachable() {
     let srv = get_test_server().await;
-    let req = srv.get("/api-doc/openapi.json");
+    let req = srv.get("/api/openapi.json");
     let mut res = req.send().await.unwrap();
     println!(
         "{} | {}",

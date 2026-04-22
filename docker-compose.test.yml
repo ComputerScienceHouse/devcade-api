@@ -28,7 +28,11 @@ services:
       context: .
       dockerfile: ./Dockerfile.test
     environment:
-      - SQL_URI=postgres://devcade:devcade@postgres/devcade?currentSchema=public
+      - API_PORT=8080
+      - PSQL_PORT=5432
+      - PSQL_USER=devcade
+      - PSQL_PASS=devcade
+      - PSQL_URI=postgres
       - FRONTEND_API_KEY=TESTING
       - S3_GAMES_BUCKET=devcade
       - S3_ENDPOINT=http://minio:9000

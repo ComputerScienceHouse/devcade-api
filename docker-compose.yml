@@ -44,7 +44,7 @@ services:
       - AWS_ACCESS_KEY_ID=DEVCADE1234
       - AWS_SECRET_ACCESS_KEY=DEVCADE1234
       - AWS_DEFAULT_REGION=us-east-1
-      - DOMAIN=localhost
+      - ALLOWED_ORIGIN=localhost
     volumes:
       - ./TESTING:/app/TESTING
     ports:

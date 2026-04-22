@@ -31,3 +31,8 @@ You can run the container on your local machine with
 
 ## Routes
 All routes and definitions are provided via OpenAPI/Swagger at [https://devcade-api.csh.rit.edu/docs/](https://devcade-api.csh.rit.edu/docs/)
+
+## Testing
+```Bash
+sudo docker compose -f docker-compose.test.yml run --rm devcade-api
+```

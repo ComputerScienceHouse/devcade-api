@@ -30,7 +30,7 @@ You can run the container on your local machine with
 
 
 ## Routes
-All routes and definitions are provided via OpenAPI/Swagger at [https://devcade-api.csh.rit.edu/docs/](https://devcade-api.csh.rit.edu/docs/)
+All routes and definitions are provided via OpenAPI/Swagger at [https://devcade.csh.rit.edu/api/docs/](https://devcade.csh.rit.edu/api/docs/)
 
 ## Testing
 ```Bash

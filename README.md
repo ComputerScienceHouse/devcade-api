@@ -34,5 +34,5 @@ All routes and definitions are provided via OpenAPI/Swagger at [https://devcade.
 
 ## Testing
 ```Bash
-sudo docker compose -f docker-compose.test.yml run --rm devcade-api
+sudo podman compose -f docker-compose.test.yml run --rm devcade-api
 ```

@@ -12,6 +12,7 @@ use aws_sdk_s3 as s3;
 use aws_sdk_s3::Endpoint;
 
 use sqlx::postgres::PgPoolOptions;
+use url::Url;
 use std::env;
 use utoipa::{
     openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
@@ -123,8 +124,23 @@ pub async fn get_app_data() -> Data<AppState> {
         .build();
     let s3_conn = s3::Client::from_conf(s3_config);
 
+    // create Postgres database url
+    let host = &env::var("PSQL_URI").unwrap();
+    let port = &env::var("PSQL_PORT").unwrap();
+    let database = "devcade";
+    let user = &env::var("PSQL_USER").unwrap();
+    let pass = &env::var("PSQL_PASS").unwrap();
+    // postgres://username:password@url:port/database
+    let uri_db = format!("postgres://{}:{}/{}",host,port,database);
+    let mut uri = Url::parse(&uri_db).unwrap();
+    let _ = uri.set_username(user);
+    let _ = uri.set_password(Some(pass));
+
+    let uri = uri.as_str();
+    
+    // create Postgres database connection
     let pool = PgPoolOptions::new()
-        .connect(&env::var("SQL_URI").unwrap())
+        .connect(uri)
         .await
         .unwrap();
     Data::new(AppState {

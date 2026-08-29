@@ -12,7 +12,7 @@ async fn main() -> std::io::Result<()> {
     let app_data = get_app_data().await;
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin(&env::var("DOMAIN").unwrap())
+            .allowed_origin(&env::var("ALLOWED_ORIGIN").unwrap())
             .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
             .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
             .allowed_header(http::header::CONTENT_TYPE)

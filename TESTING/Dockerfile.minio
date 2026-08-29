@@ -1,5 +1,4 @@
 FROM quay.io/minio/minio
-RUN mkdir /data
-RUN mkdir /data/devcade
+RUN mkdir -p /data/devcade
 COPY .minio.sys/ /data/
 CMD ["server", "--console-address", ":9001", "/data"]

@@ -15,32 +15,48 @@ Source code can be found at: https://github.com/ComputerScienceHouse/devcade-api
 
 - Download project and run ```npm install```
 - Use ```npm run dev``` to start the development server.
-- If a ```.env``` file does not currently exist in the repo root directory, create one with:
-
-```
-# Express API Environment Variables
-API_PORT=<api port>    
-````
-
-PSQL_PORT= PSQL_USER= PSQL_PASS= PSQL_URI=
-
-
-# Python Helper Environment Variables
-
-S3_ACCESSKEYID= S3_SECRETACCESSKEY= S3_ENDPOINT= S3_GAMES_BUCKET="devcade-games" S3_SAVES_BUCKET="devcade-saves"
-
+- There is a file called [.env.template](/.env.template) in the `./onboard` folder. Copy the file to a new file called `.env` in the same directory. Then get the values from an RTP or a Devcade Admin
 
 ## Podman
 
 First, build the container.
 
-```podman build . --tag devcade-api```
+```Bash
+podman build . --tag devcade-api
+```
 
 
 You can run the container on your local machine with
 
-```podman run --rm -it --name devcade-api -p 8277:8277 --env-file=.env devcade-api```
+```Bash
+podman run --rm -it --name devcade-api -p 8277:8277 --env-file=.env devcade-api
+```
 
 
 ## Routes
-All routes and definitions are provided via OpenAPI/Swagger at [https://devcade-api.csh.rit.edu/docs/](https://devcade-api.csh.rit.edu/docs/)
+All routes and definitions are provided via OpenAPI/Swagger at [https://devcade.csh.rit.edu/api/docs/](https://devcade.csh.rit.edu/api/docs/)
+
+## Testing
+### Run Tests
+First build the container
+```Bash
+podman compose -f docker-compose.test.yml build --rm devcade-api
+```
+Then run the container once with
+```Bash
+podman compose -f docker-compose.test.yml run --rm devcade-api
+```
+### Local integration testing
+Runs the API locally with test data, so API calls do not mess with the production database and s3 bucket   
+First build the container
+```Bash
+podman compose -f docker-compose.yml build devcade-api
+```
+Start the container with
+```Bash
+podman compose -f docker-compose.yml up devcade-api
+```
+Stop the container with
+```Bash
+podman compose -f docker-compose.yml down devcade-api
+```

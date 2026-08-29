@@ -28,14 +28,18 @@ services:
       context: .
       dockerfile: ./Dockerfile.test
     environment:
-      - SQL_URI=postgres://devcade:devcade@postgres/devcade?currentSchema=public
+      - API_PORT=8080
+      - PSQL_PORT=5432
+      - PSQL_USER=devcade
+      - PSQL_PASS=devcade
+      - PSQL_URI=postgres
       - FRONTEND_API_KEY=TESTING
       - S3_GAMES_BUCKET=devcade
       - S3_ENDPOINT=http://minio:9000
       - AWS_ACCESS_KEY_ID=DEVCADE1234
       - AWS_SECRET_ACCESS_KEY=DEVCADE1234
       - AWS_DEFAULT_REGION=us-east-1
-      - DOMAIN=devcade-api
+      - ALLOWED_ORIGIN=devcade-api
     networks:
       - test
     depends_on:
